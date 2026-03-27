@@ -36,7 +36,10 @@ void add_road(Map *m, int from, int to, float weight) {
         printf("Errore: nodo inesistente (from=%d, to=%d)\n", from, to);
         return;
     }
-    
+    if (from == to) {
+    printf("Errore: non puoi collegare un nodo a se stesso!\n");
+    return;
+}
     if (weight <= 0) {
         printf("Errore: il peso deve essere positivo\n");
         return;
