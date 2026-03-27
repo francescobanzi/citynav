@@ -209,7 +209,7 @@ void test_one_way_streets(Map *m) {
 int main() {
     Map *city_map = create_map(); //DA FIXARE
     int choice; //AGGIUNGERE CONTROLLO DELL'INPUT 
-    
+       
     printf("========================================\n");
     printf("   C I T Y N A V   -   B O L O G N A   \n");
     printf("   Sistema di Navigazione Urbana\n");
@@ -229,9 +229,13 @@ int main() {
         
         // Gestione input numerico
         if (scanf("%d", &choice) != 1) {
-            printf("Errore: Inserire un numero valido!\n");
+            printf("Errore: inserisci un numero!\n");
             clear_input_buffer();
-            choice = -1;
+            continue;
+        }
+
+        if (choice < 0 || choice > 5) {
+            printf("Errore: numero tra 0 e 5!\n");
             continue;
         }
         
