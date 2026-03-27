@@ -207,8 +207,8 @@ void test_one_way_streets(Map *m) {
 }
 
 int main() {
-    Map *city_map = create_map();
-    int choice;
+    Map *city_map = create_map(); //DA FIXARE
+    int choice; //AGGIUNGERE CONTROLLO DELL'INPUT 
     
     printf("========================================\n");
     printf("   C I T Y N A V   -   B O L O G N A   \n");
