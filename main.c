@@ -169,16 +169,17 @@ void interactive_remove_poi(Map *m) {
 // Crea la mappa di esempio di Bologna
 void create_sample_map(Map *m) {
     printf("\n=== CREAZIONE MAPPA DI BOLOGNA ===\n");
-    
+
     // Aggiunta POI
-    add_poi(m, "Stazione AV", "trasporti");        
-    add_poi(m, "Piazza Maggiore", "cultura");      
-    add_poi(m, "Ospedale Sant'Orsola", "ospedali"); 
-    add_poi(m, "Universita", "cultura");           
-    add_poi(m, "Mercato delle Erbe", "ristorazione"); 
-    add_poi(m, "Parco della Montagnola", "verde"); 
-    
-    // Aggiunta strade 
+    add_poi(m, "Stazione AV", "trasporti");           // ID 1
+    add_poi(m, "Piazza Maggiore", "cultura");         // ID 2
+    add_poi(m, "Ospedale Sant'Orsola", "ospedali");   // ID 3
+    add_poi(m, "Universita", "cultura");              // ID 4
+    add_poi(m, "Mercato delle Erbe", "ristorazione"); // ID 5
+    add_poi(m, "Parco della Montagnola", "verde");    // ID 6
+    add_poi(m, "Fiera", "eventi");                    // ID 7 - NUOVO POI ISOLATO
+
+    // Aggiunta strade
     printf("\n=== AGGIUNTA STRADE ===\n");
     add_road(m, 1, 2, 800);   // Stazione -> Piazza Maggiore
     add_road(m, 2, 4, 500);   // Piazza Maggiore -> Universita
@@ -189,9 +190,13 @@ void create_sample_map(Map *m) {
     add_road(m, 3, 1, 2000);  // Ospedale -> Stazione
     add_road(m, 4, 5, 600);   // Universita -> Mercato
     add_road(m, 6, 4, 700);   // Parco -> Universita
-    
+
+    // NOTA: Il POI "Fiera" (ID 7) NON HA STRADE!
+    // Quindi rimane ISOLATO e non raggiungibile
+
     printf("\nMappa di esempio caricata con successo!\n");
-    printf("\n6 POI, 9 strade orientate\n");
+    printf(" 7 POI (1 isolato: Fiera),  9 strade orientate\n");
+    printf("Il POI 'Fiera' (ID 7) è ISOLATO e non raggiungibile!\n");
 }
 
 // Funzione per testare i sensi unici (!!!da aggiungere al menù!!!)
