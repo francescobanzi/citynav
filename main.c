@@ -17,6 +17,7 @@ void print_menu() {
     printf("3. Calcola percorso minimo\n");
     printf("4. Rimuovi un POI\n");
     printf("5. Visualizza mappa completa\n");
+    printf("6. Blocca una strada\n");
     printf("0. Esci\n");
     printf("========================================\n");
     printf("Scegli un'opzione: ");
@@ -129,9 +130,7 @@ void interactive_shortest_path(Map *m) {
     printf("\nCalcolo percorso in corso...\n");
     shortest_path(m, from, to);
     
-    // Messaggio informativo sul grafo orientato
-    printf("\nNota: Il grafo è orientato (sensi unici).\n");
-    printf("Il percorso inverso potrebbe non esistere!\n");
+
 }
 
 // Funzione per rimuovere un POI interattivamente
@@ -169,17 +168,16 @@ void interactive_remove_poi(Map *m) {
 // Crea la mappa di esempio di Bologna
 void create_sample_map(Map *m) {
     printf("\n=== CREAZIONE MAPPA DI BOLOGNA ===\n");
-
+    
     // Aggiunta POI
-    add_poi(m, "Stazione AV", "trasporti");           // ID 1
-    add_poi(m, "Piazza Maggiore", "cultura");         // ID 2
-    add_poi(m, "Ospedale Sant'Orsola", "ospedali");   // ID 3
-    add_poi(m, "Universita", "cultura");              // ID 4
-    add_poi(m, "Mercato delle Erbe", "ristorazione"); // ID 5
-    add_poi(m, "Parco della Montagnola", "verde");    // ID 6
-    add_poi(m, "Fiera", "eventi");                    // ID 7 - NUOVO POI ISOLATO
-
-    // Aggiunta strade
+    add_poi(m, "Stazione AV", "trasporti");        
+    add_poi(m, "Piazza Maggiore", "cultura");      
+    add_poi(m, "Ospedale Sant'Orsola", "ospedali"); 
+    add_poi(m, "Universita", "cultura");           
+    add_poi(m, "Mercato delle Erbe", "ristorazione"); 
+    add_poi(m, "Parco della Montagnola", "verde"); 
+    
+    // Aggiunta strade 
     printf("\n=== AGGIUNTA STRADE ===\n");
     add_road(m, 1, 2, 800);   // Stazione -> Piazza Maggiore
     add_road(m, 2, 4, 500);   // Piazza Maggiore -> Universita
@@ -190,13 +188,40 @@ void create_sample_map(Map *m) {
     add_road(m, 3, 1, 2000);  // Ospedale -> Stazione
     add_road(m, 4, 5, 600);   // Universita -> Mercato
     add_road(m, 6, 4, 700);   // Parco -> Universita
-
-    // NOTA: Il POI "Fiera" (ID 7) NON HA STRADE!
-    // Quindi rimane ISOLATO e non raggiungibile
-
+    
     printf("\nMappa di esempio caricata con successo!\n");
-    printf(" 7 POI (1 isolato: Fiera),  9 strade orientate\n");
-    printf("Il POI 'Fiera' (ID 7) è ISOLATO e non raggiungibile!\n");
+    printf("\n6 POI, 9 strade orientate\n");
+}
+
+// Funzione per bloccare una strada interattivamente
+void interactive_block_road(Map *m) {
+    int from, to;
+
+    if (m->num_nodes < 2) {
+        printf("Errore: Servono almeno 2 POI per bloccare una strada!\n");
+        return;
+    }
+
+    printf("\n--- BLOCCO STRADA ---\n");
+    list_all_pois(m);
+
+    printf("Inserisci l'ID del nodo di partenza della strada da bloccare: ");
+    scanf("%d", &from);
+
+    if (!node_exists(m, from)) {
+        printf("Errore: Il nodo %d non esiste!\n", from);
+        return;
+    }
+
+    printf("Inserisci l'ID del nodo di destinazione della strada da bloccare: ");
+    scanf("%d", &to);
+
+    if (!node_exists(m, to)) {
+        printf("Errore: Il nodo %d non esiste!\n", to);
+        return;
+    }
+
+    block_road(m, from, to);
 }
 
 // Funzione per testare i sensi unici (!!!da aggiungere al menù!!!)
@@ -239,8 +264,8 @@ int main() {
             continue;
         }
 
-        if (choice < 0 || choice > 5) {
-            printf("Errore: numero tra 0 e 5!\n");
+        if (choice < 0 || choice > 6) {
+            printf("Errore: numero tra 0 e 6!\n");
             continue;
         }
         
@@ -265,11 +290,12 @@ int main() {
                 printf("\n--- VISUALIZZAZIONE MAPPA COMPLETA ---\n");
                 print_map(city_map);
                 break;
-                
-            case 8:  // Opzione nascosta per test sensi unici
-                test_one_way_streets(city_map);
+
+            case 6:
+                interactive_block_road(city_map);
                 break;
                 
+           
             case 0:
                 printf("\nGrazie per aver usato CityNav! Arrivederci!\n");
                 break;

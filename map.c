@@ -234,6 +234,38 @@ void print_map(Map *m) {
     printf("========================\n\n");
 }
 
+// Blocca (rimuove) un arco orientato tra due nodi
+void block_road(Map *m, int from, int to) {
+    if (!node_exists(m, from) || !node_exists(m, to)) {
+        printf("Errore: nodo inesistente (from=%d, to=%d)\n", from, to);
+        return;
+    }
+
+    Edge *prev = NULL;
+    Edge *curr = m->adj_list[from];
+
+    while (curr != NULL) {
+        if (curr->to == to) {
+            if (prev == NULL) {
+                m->adj_list[from] = curr->next;
+            } else {
+                prev->next = curr->next;
+            }
+            free(curr);
+            printf("Strada bloccata: %d (%s) -> %d (%s)\n",
+                   from, m->nodes[from].name,
+                   to,   m->nodes[to].name);
+            return;
+        }
+        prev = curr;
+        curr = curr->next;
+    }
+
+    printf("Errore: nessuna strada trovata da %d (%s) a %d (%s)\n",
+           from, m->nodes[from].name,
+           to,   m->nodes[to].name);
+}
+
 void free_map(Map *m) {
     for (int i = 0; i < MAX_NODES; i++) {
         remove_edges_from_node(m, i);

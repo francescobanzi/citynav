@@ -40,6 +40,7 @@ void add_poi(Map *m, char *name, char *category);
 void add_road(Map *m, int from, int to, float weight);
 void shortest_path(Map *m, int from, int to);
 void remove_poi(Map *m, int id);
+void block_road(Map *m, int from, int to);
 void free_map(Map *m);
 
 // Funzioni di utilità
