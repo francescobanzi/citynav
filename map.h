@@ -49,3 +49,15 @@ void print_poi(Map *m, int id);
 void print_map(Map *m);
 bool node_exists(Map *m, int id);
 void remove_edges_from_node(Map *m, int id);
+void clear_input_buffer();
+// Funzioni interattive
+void list_all_pois(Map *m);
+void interactive_add_poi(Map *m);
+void interactive_add_road(Map *m);
+void interactive_shortest_path(Map *m);
+void interactive_remove_poi(Map *m);
+void interactive_block_road(Map *m);
+
+// Setup e test
+void create_sample_map(Map *m);
+void test_one_way_streets(Map *m);
